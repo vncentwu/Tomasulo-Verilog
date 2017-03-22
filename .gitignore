@@ -1,0 +1,7 @@
+mem.hex
+cpu
+cpu.vcd
+test.ok
+test.out
+test.raw
+test.cycles

@@ -1,0 +1,65 @@
+Due date: Sunday 11/15/2015 @11:59pm
+
+Objective: Implement a variant of the Tomasulo algorithm
+
+Assignment: 
+~~~~~~~~~~~
+
+Implement a variant of the Tomasulo algorithm for our simple
+architecture. You have lots of flexibility in your implementation
+but you need to have:
+
+- One or more loads units (handling memory loads)
+- One or more fixed-point units (handling fixed-point instructions)
+  at 4 words)
+- Allow instructions to commit out-of-order (no re-order buffer)
+- no store instructions (to keep things simple)
+- you don't have to use my registers. I replaced them with an inline array of regs
+- 2 kinds of asynchronous memory read ports.
+
+    - Port #1 (faster) should be used for fetching instructions
+    - Port #2 (slower) should be used for loads
+
+- Add a test case (testu) that has an IPC > 1. Feel free to change the
+  memory interface by adding more ports of the same kind if you need to.
+  
+- instruction set
+
+  encoding          instruction   description
+    
+  0000iiiiiiiitttt  mov i,t       regs[t] = i; pc += 1;
+  0001aaaabbbbtttt  add a,b,t     regs[t] = regs[a] + regs[b]; pc += 1;
+  0010jjjjjjjjjjjj  jmp j         pc = j;
+  0011000000000000  halt          <stop fetching instructions>
+  0100iiiiiiiitttt  ld i,t        regs[t] = mem[i]; pc += 1;
+  0101aaaabbbbtttt  ldr a,b,t     regs[t] = mem[regs[a]+regs[b]]; pc += 1;
+  0110aaaabbbbtttt  jeq a,b,t     if (regs[a] == regs[b]) pc += d
+                                  else pc += 1;
+
+Files you can change
+~~~~~~~~~~~~~~~~~~~~
+
+cpu.v contains the implementation. You are required to use the provided
+memory (mem.v) and clock (clock.v)
+
+Files to leave alone
+~~~~~~~~~~~~~~~~~~~~
+
+Makefile, clock.v, mem.v, counter.v, test.ok, mem.hex
+
+To compile
+~~~~~~~~~~
+
+    make
+
+To run all tests
+~~~~~~~~~~~~~~~~
+
+    make test
+
+To run one test (e.g. test1)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    make test1
+
+Will also produce cpu.vcd which can be viewed in gtkwave
